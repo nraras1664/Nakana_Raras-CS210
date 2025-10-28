@@ -14,14 +14,31 @@ struct MinHeap {
 
     MinHeap() { size = 0; }
 
+    //Adds the index to the array, fixes the order with upheap(), then adjusts the size of the heap
     void push(int idx, int weightArr[]) {
         // TODO: insert index at end of heap, restore order using upheap()
+        data[size] = idx;
+        upheap(size, weightArr);
+        ++size;
     }
 
+    //returns smallest index (always at index 0), then fixes the order with downheap()
     int pop(int weightArr[]) {
         // TODO: remove and return smallest index
         // Replace root with last element, then call downheap()
-        return -1; // placeholder
+        if (size == 0) {
+            cout << "Heap is empty" << endl;
+            return -1;
+        }
+
+        int smallest = data[0];
+        // replaces root with last element
+        data[0] = data[size - 1];
+        --size;
+        if (size > 0) {
+            downheap(0, weightArr);
+        }
+        return smallest;
     }
 
     void upheap(int pos, int weightArr[]) {
