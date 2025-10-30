@@ -67,18 +67,19 @@ struct MinHeap {
             int leftChild = 2 * pos + 1;
             int rightChild = 2 * pos + 2;
 
-            if (leftChild < size && weightArr[leftChild] < weightArr[pos]) {
+            //same issue with upheap, fix the comparison and the swap
+            if (leftChild < size && weightArr[data[leftChild]] < weightArr[data[pos]]) {
                 smallest = leftChild;
             }
 
-            if (rightChild < size && weightArr[rightChild] < weightArr[pos]) {
+            if (rightChild < size && weightArr[data[rightChild]] < weightArr[data[pos]]) {
                 smallest = rightChild;
             }
 
             if (smallest != pos) {
-                int temp = weightArr[pos];
-                weightArr[pos] = weightArr[smallest];
-                weightArr[smallest] = temp;
+                int temp = data[pos];
+                data[pos] = data[smallest];
+                data[smallest] = temp;
                 pos = smallest;
             }
             else {
