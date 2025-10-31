@@ -120,6 +120,7 @@ int buildEncodingTree(int nextFree) {
 
         //push new parent index back into the heap
         heap.push(nextFree, weightArr);
+        nextFree++;
     }
 
     //return the root
@@ -136,6 +137,7 @@ void generateCodes(int root, string codes[]) {
 
     //use stack<pair<int, string>>
     stack<pair<int, string>> codesStack;
+    codesStack.push({root, ""});
 
     while (codesStack.size() > 0) {
         pair<int, string> code = codesStack.top();
