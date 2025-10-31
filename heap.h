@@ -14,7 +14,7 @@ struct MinHeap {
 
     MinHeap() { size = 0; }
 
-    //Adds the index to the array, fixes the order with upheap(), then adjusts the size of the heap
+    //Adds the index to the end of the heap (which is size), fixes the order with upheap(), then adjusts the size of the heap
     void push(int idx, int weightArr[]) {
         // TODO: insert index at end of heap, restore order using upheap()
         data[size] = idx;
@@ -25,7 +25,6 @@ struct MinHeap {
     //returns smallest index (always at index 0), then fixes the order with downheap()
     int pop(int weightArr[]) {
         // TODO: remove and return smallest index
-        // Replace root with last element, then call downheap()
         if (size == 0) {
             cout << "Heap is empty" << endl;
             return -1;
@@ -41,12 +40,13 @@ struct MinHeap {
         return smallest;
     }
 
+    //restores the order if the child is smaller than the parent
     void upheap(int pos, int weightArr[]) {
         // TODO: swap child upward while smaller than parent
         while (pos > 0) {
             int parent = (pos - 1) / 2;
 
-            //fix this comparison and swap
+            //if parent is bigger than child
             if (weightArr[data[parent]] > weightArr[data[pos]]) {
                 int temp = data[parent];
                 data[parent] = data[pos];
@@ -60,6 +60,7 @@ struct MinHeap {
         }
     }
 
+    //restores order if parent is larger than left or right child
     void downheap(int pos, int weightArr[]) {
         // TODO: swap parent downward while larger than any child
         while (pos < size) {
@@ -67,15 +68,17 @@ struct MinHeap {
             int leftChild = 2 * pos + 1;
             int rightChild = 2 * pos + 2;
 
-            //same issue with upheap, fix the comparison and the swap
-            if (leftChild < size && weightArr[data[leftChild]] < weightArr[data[pos]]) {
+            //if there is left child in the heap AND if the weight of left child is smaller than the weight of parent
+            if ((leftChild < size) && (weightArr[data[leftChild]] < weightArr[data[pos]])) {
                 smallest = leftChild;
             }
 
-            if (rightChild < size && weightArr[data[rightChild]] < weightArr[data[pos]]) {
+            //if there is a right child AND if the weight of right child is smaller than the weight of parent
+            if ((rightChild < size) && (weightArr[data[rightChild]] < weightArr[data[pos]])) {
                 smallest = rightChild;
             }
 
+            //if the assumed smallest (pos) is not the actual smallest, swap them
             if (smallest != pos) {
                 int temp = data[pos];
                 data[pos] = data[smallest];
