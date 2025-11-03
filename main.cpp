@@ -99,33 +99,25 @@ int buildEncodingTree(int nextFree) {
     //    - Push new parent index back into the heap
     // 4. Return the index of the last remaining node (root)
 
-    // 1. Minheap object
     MinHeap heap;
 
-    // 2. pushes leaf node indices into the heap
     for (int i = 0; i < nextFree; ++i) {
         heap.push(i, weightArr);
     }
 
-    // 3. heap greater than 1
     while (heap.size > 1) {
-        //two smallest nodes
         int left = heap.pop(weightArr);
         int right = heap.pop(weightArr);
 
-        //left and right pointers
         leftArr[nextFree] = left;
         rightArr[nextFree] = right;
 
-        //new parent node with combined weight
         weightArr[nextFree] = weightArr[left] + weightArr[right];
 
-        //push new parent index back into the heap
         heap.push(nextFree, weightArr);
         nextFree++;
     }
 
-    // 4. return the root
     int root = heap.pop(weightArr);
     return root;
 }
@@ -137,11 +129,9 @@ void generateCodes(int root, string codes[]) {
     // Left edge adds '0', right edge adds '1'.
     // Record code when a leaf node is reached.
 
-    //use stack<pair<int, string>>
     stack<pair<int, string>> codesStack;
     codesStack.push({root, ""});
 
-    //traversing through the structure
     while (codesStack.size() > 0) {
         pair<int, string> code = codesStack.top();
         codesStack.pop();
@@ -152,17 +142,12 @@ void generateCodes(int root, string codes[]) {
         int left = leftArr[node];
         int right = rightArr[node];
 
-        //if the left and right are leaf nodes
         if (left == -1 && right == -1) {
-            //Records code when it is a leaf node
             codes[charArr[node] - 'a'] = path;
         }
         else {
-            //Moving left adds a 0
             codesStack.push({left, path + '0'});
-            //Moving right adds a 1
             codesStack.push({right, path + '1'});
-
         }
 
     }
